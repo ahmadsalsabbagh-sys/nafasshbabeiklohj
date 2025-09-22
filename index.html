@@ -1,326 +1,133 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نَفَس شبابي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background: #eef6f4; margin:0; padding:0; color:#15323b; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:10px 18px; background: rgba(255,255,255,0.95); position: sticky; top:0; z-index:99; flex-wrap:wrap; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand img { width:64px; height:64px; border-radius:12px; object-fit:contain; }
+    .brand h1 { margin:0; }
+    .brand .small { font-size:0.8rem; color:#6b7b80; }
+    nav ul { display:flex; list-style:none; gap:12px; margin:0; padding:0; }
+    nav ul li a { text-decoration:none; padding:6px 10px; border-radius:6px; }
+    nav ul li a.cta { background:#2aa07a; color:white; font-weight:700; padding:6px 12px; }
+    section { padding:28px 18px; }
+    h2 { margin-bottom:18px; }
+    .cards, .team { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .card, .member { background: linear-gradient(135deg, #d4f1ec, #eef6f4); padding:16px; border-radius:16px; box-shadow:0 8px 24px rgba(10,20,20,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; opacity:0; transform: translateY(20px);}
+    .card:hover, .member:hover { transform: translateY(-6px) scale(1.05); box-shadow:0 20px 50px rgba(18,50,50,0.15); background: linear-gradient(135deg, #2aa07a, #3db08d); color:white; }
+    .small { font-size:0.85rem; color:#6b7b80; }
+    .avatar { width:86px; height:86px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #2aa07a, #3db08d); color:white; font-weight:700; font-size:22px; margin-bottom:10px;}
+    footer { text-align:center; padding:18px; border-top:1px solid rgba(0,0,0,0.04); color:#6b7b80; }
+    .btn { padding:10px 16px; border-radius:10px; font-weight:700; text-decoration:none; }
+    .btn-outline { border:2px solid #2aa07a; color:#2aa07a; }
+    .btn-primary { background:#2aa07a; color:white; }
+    .buttons { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .contact-actions li { margin:6px 0; }
+    .whatsapp-float { position: fixed; left:18px; bottom:18px; background:#25d366; color:white; border-radius:999px; padding:14px 16px; font-weight:700; text-decoration:none; z-index:60; }
 
-const workshops = [
-  { title: "الصحة النفسية", desc: "أساسيات الصحة النفسية وكيفية طلب المساعدة." },
-  { title: "العلاقة بين الصحة النفسية والجسدية", desc: "كيف يؤثر أسلوب الحياة على مزاجنا وصحتنا." },
-  { title: "تأثير السوشال ميديا على صحتنا النفسية", desc: "آليات التعامل مع المحتوى وتقليل الضغوط الرقمية." },
-  { title: "رحلة لفهم التوحد", desc: "مقدمة، مفاهيم، وكيفية دعم الأشخاص المتوحدين." },
-  { title: "الحيوانات الأليفة وصحتنا النفسية", desc: "فائدة التفاعل مع الحيوانات ودوره العلاجي." },
-  { title: "الصدمات النفسية", desc: "فهم الصدمة وطرق التدخل والدعم." },
-  { title: "رحلة مع نَفَس شبابي", desc: "تعرف على مبادرتنا وخبرات الشباب معنا." },
-  { title: "الفرق بين الغَزَلة والتوحد", desc: "فهم الفروق والسلوكيات وكيفية التأويل السليم." },
-  { title: "التغذية والصحة النفسية", desc: "علاقة الأكل بالمزاج والطاقة اليومية." },
-  { title: "الذكاء العاطفي", desc: "تنمية الوعي الذاتي والمهارات الاجتماعية." },
-];
+    /* Fade-in animation */
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="https://nahno-new.s3.eu-west-3.amazonaws.com/ngo/profile-25072519215598saf.png" alt="لوغو نَفَس شبابي">
+      <div>
+        <h1>نَفَس شبابي</h1>
+        <p class="small">مساحة للتوعية، الدعم، والإبداع</p>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">عنّا</a></li>
+        <li><a href="#workshops">ورشاتنا</a></li>
+        <li><a href="#team">الفريق</a></li>
+        <li><a href="#contact">تواصل معنا</a></li>
+        <li><a class="cta" href="#join">انضم الآن</a></li>
+      </ul>
+    </nav>
+  </header>
 
-const team = [
-  { name: "أحمد الصباغ", role: "مسؤول ومؤسس المبادرة", initials: "أح" },
-  { name: "نورس المومني", role: "نائب رئيس", initials: "نو" },
-  { name: "أماني بطوش", role: "عضو إداري / هندسة برمجيات", initials: "أم" },
-  { name: "مرح القضاة", role: "عضو إداري / صيدلة", initials: "مر" },
-  { name: "فاطمة القضاة", role: "عضو إداري / ناشطة شبابية", initials: "فا" },
-  { name: "ياسمين المومني", role: "عضو إداري / معلمة صف", initials: "يس" },
-];
+  <section>
+    <h2>نَفَس شبابي — من القلب للقلب</h2>
+    <p>مبادرة شبابية أُطلقت عبر منصة "نَحن" لنشر الوعي النفسي وتعزيز الصحة النفسية بين الشباب الأردني. نقدم ورشات تفاعلية أونلاين (Google Meet) ووجاهي.</p>
+    <div class="buttons">
+      <a class="btn btn-primary" href="#workshops">ورشاتنا</a>
+      <a class="btn btn-outline" href="#about">تعرف علينا</a>
+    </div>
+  </section>
 
-// ---- ANIMATIONS ----
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+  <section id="about">
+    <h2>عن نَفَس شبابي</h2>
+    <p>مبادرتنا تهدف لنشر الوعي النفسي وتعزيز الصحة النفسية بين الشباب الأردني من خلال ورشات تفاعلية، لقاءات توعوية وأنشطة عملية.</p>
+    <h3>شراكاتنا</h3>
+    <p>نرحّب بتعاون المدربين والمتخصصين المتطوعين لتقديم ورشات تدريبية. هدفنا أن يستفيد الشباب ويترك كل مدرب أثرًا إيجابيًا.</p>
+  </section>
 
-// ---- STYLED COMPONENTS ----
-const AppContainer = styled.div`
-  font-family: Cairo, sans-serif;
-  background: #eef6f4;
-  color: #15323b;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 18px;
-`;
+  <section id="workshops">
+    <h2>ورشاتنا</h2>
+    <div class="cards" id="workshop-cards"></div>
+  </section>
 
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  background: rgba(255, 255, 255, 0.95);
-  z-index: 99;
-  flex-wrap: wrap;
-`;
+  <section id="team">
+    <h2>فريق نَفَس شبابي</h2>
+    <div class="team" id="team-members"></div>
+  </section>
 
-const Brand = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  <section id="contact">
+    <h2>تواصل معنا</h2>
+    <p>للتسجيل أو الاستفسار، تواصل معنا عبر:</p>
+    <ul class="contact-actions">
+      <li>📱 هاتف: <a href="tel:0791036401">0791036401</a></li>
+      <li>📷 إنستغرام: <a href="https://www.instagram.com/nafas.shababi" target="_blank">@nafas.shababi</a></li>
+      <li>🔗 واتساب: <a href="https://chat.whatsapp.com/L55BbojXqZSDTSoKtJ9Dbc?mode=ems_copy_t" target="_blank">اضغط هنا</a></li>
+    </ul>
+  </section>
 
-  img {
-    width: 64px;
-    height: 64px;
-    border-radius: 12px;
-    object-fit: contain;
-  }
+  <footer>© 2025 نَفَس شبابي — كل الحقوق محفوظة</footer>
+  <a class="whatsapp-float" href="https://chat.whatsapp.com/L55BbojXqZSDTSoKtJ9Dbc?mode=ems_copy_t" target="_blank">تواصل معنا</a>
 
-  h1 {
-    margin: 0;
-  }
+  <script>
+    const workshops = [
+      "الصحة النفسية", "العلاقة بين الصحة النفسية والجسدية", "تأثير السوشال ميديا على صحتنا النفسية",
+      "رحلة لفهم التوحد", "الحيوانات الأليفة وصحتنا النفسية", "الصدمات النفسية",
+      "رحلة مع نَفَس شبابي", "الفرق بين الغَزَلة والتوحد", "التغذية والصحة النفسية", "الذكاء العاطفي"
+    ];
 
-  .small {
-    font-size: 0.8rem;
-    color: #6b7b80;
-  }
-`;
+    const workshopsDiv = document.getElementById('workshop-cards');
+    workshops.forEach((w,i)=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.animation = `fadeInUp 0.6s ease forwards`;
+      card.style.animationDelay = `${i*0.1}s`;
+      card.innerHTML = `<h3>${w}</h3><p class="small">محتوى مفيد وشامل حول ${w}</p>`;
+      workshopsDiv.appendChild(card);
+    });
 
-const Nav = styled.nav`
-  ul {
-    display: flex;
-    list-style: none;
-    gap: 12px;
-    padding: 0;
-    margin: 0;
+    const team = [
+      {name:"أحمد الصباغ", role:"مسؤول ومؤسس المبادرة", initials:"أح"},
+      {name:"نورس المومني", role:"نائب رئيس", initials:"نو"},
+      {name:"أماني بطوش", role:"عضو إداري / هندسة برمجيات", initials:"أم"},
+      {name:"مرح القضاة", role:"عضو إداري / صيدلة", initials:"مر"},
+      {name:"فاطمة القضاة", role:"عضو إداري / ناشطة شبابية", initials:"فا"},
+      {name:"ياسمين المومني", role:"عضو إداري / معلمة صف", initials:"يس"}
+    ];
 
-    li a {
-      text-decoration: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-    }
-
-    .cta {
-      background: #2aa07a;
-      color: white;
-      font-weight: 700;
-      padding: 6px 12px;
-    }
-  }
-`;
-
-const Hero = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 36px 0;
-
-  .buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .btn-outline {
-    border: 2px solid #2aa07a;
-    color: #2aa07a;
-  }
-
-  .btn-primary {
-    background: #2aa07a;
-    color: white;
-  }
-`;
-
-const Section = styled.section`
-  padding: 28px 0;
-
-  h2 {
-    margin-bottom: 18px;
-  }
-
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-  }
-
-  .card {
-    background: linear-gradient(135deg, #d4f1ec, #eef6f4);
-    padding: 16px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(10, 20, 20, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    animation: ${fadeInUp} 0.6s ease forwards;
-
-    &:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 18px 40px rgba(18, 50, 50, 0.1);
-      background: linear-gradient(135deg, #2aa07a, #3db08d);
-      color: white;
-
-      .small {
-        color: #e0f0ec;
-      }
-    }
-
-    .small {
-      font-size: 0.85rem;
-      color: #6b7b80;
-    }
-  }
-
-  .team {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-  }
-
-  .member {
-    background: linear-gradient(135deg, #eef6f4, #d4f1ec);
-    padding: 14px;
-    border-radius: 16px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    animation: ${fadeInUp} 0.8s ease forwards;
-
-    &:hover {
-      transform: translateY(-6px) scale(1.05);
-      box-shadow: 0 20px 50px rgba(18, 50, 50, 0.15);
-      background: linear-gradient(135deg, #2aa07a, #3db08d);
-      color: white;
-
-      .small {
-        color: #e0f0ec;
-      }
-    }
-  }
-
-  .avatar {
-    width: 86px;
-    height: 86px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #2aa07a, #3db08d);
-    color: white;
-    font-weight: 700;
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-
-  .contact-actions li {
-    margin: 6px 0;
-  }
-`;
-
-const Footer = styled.footer`
-  text-align: center;
-  padding: 18px 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
-  color: #6b7b80;
-`;
-
-const WhatsAppFloat = styled.a`
-  position: fixed;
-  left: 18px;
-  bottom: 18px;
-  background: #25d366;
-  color: white;
-  border-radius: 999px;
-  padding: 14px 16px;
-  font-weight: 700;
-  z-index: 60;
-  text-decoration: none;
-`;
-
-function App() {
-  return (
-    <AppContainer>
-      <Header>
-        <Brand>
-          <img
-            src="https://nahno-new.s3.eu-west-3.amazonaws.com/ngo/profile-25072519215598saf.png"
-            alt="لوغو نَفَس شبابي"
-          />
-          <div>
-            <h1>نَفَس شبابي</h1>
-            <p className="small">مساحة للتوعية، الدعم، والإبداع</p>
-          </div>
-        </Brand>
-        <Nav>
-          <ul>
-            <li><a href="#about">عنّا</a></li>
-            <li><a href="#workshops">ورشاتنا</a></li>
-            <li><a href="#team">الفريق</a></li>
-            <li><a href="#contact">تواصل معنا</a></li>
-            <li><a className="cta" href="#join">انضم الآن</a></li>
-          </ul>
-        </Nav>
-      </Header>
-
-      <Hero>
-        <h2>نَفَس شبابي — من القلب للقلب</h2>
-        <p>
-          مبادرة شبابية أُطلقت عبر منصة "نَحن" لنشر الوعي النفسي وتعزيز الصحة النفسية بين الشباب الأردني.
-          نقدم ورشات تفاعلية أونلاين (Google Meet) ووجاهي.
-        </p>
-        <div className="buttons">
-          <a className="btn btn-primary" href="#workshops">ورشاتنا</a>
-          <a className="btn btn-outline" href="#about">تعرف علينا</a>
-        </div>
-      </Hero>
-
-      <Section id="about">
-        <h2>عن نَفَس شبابي</h2>
-        <p>
-          نَفَس شبابي مبادرة شبابية أُطلقت عبر منصة "نَحن"، هدفها نشر الوعي النفسي وتعزيز الصحة النفسية بين الشباب الأردني.
-          نقدم ورشات تفاعلية، لقاءات توعوية وأنشطة عملية.
-        </p>
-        <h3>شراكاتنا</h3>
-        <p>
-          نرحّب بتعاون المدربين والمتخصصين المتطوعين لتقديم ورشات تدريبية.
-          هدفنا أن يستفيد الشباب ويترك كل مدرب أثرًا إيجابيًا عبر مجتمعاتنا.
-        </p>
-      </Section>
-
-      <Section id="workshops">
-        <h2>ورشاتنا</h2>
-        <div className="cards">
-          {workshops.map((w, idx) => (
-            <div className="card" key={idx} style={{ animationDelay: `${idx * 0.1}s` }}>
-              <h3>{w.title}</h3>
-              <p className="small">{w.desc}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="team">
-        <h2>فريق نَفَس شبابي</h2>
-        <div className="team">
-          {team.map((m, idx) => (
-            <div className="member" key={idx} style={{ animationDelay: `${idx * 0.15}s` }}>
-              <div className="avatar">{m.initials}</div>
-              <strong>{m.name}</strong>
-              <div className="small">{m.role}</div>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="contact">
-        <h2>تواصل معنا</h2>
-        <p>للتسجيل أو الاستفسار، تواصل معنا عبر:</p>
-        <ul className="contact-actions">
-          <li>📱 هاتف: <a href="tel:0791036401">0791036401</a></li>
-          <li>📷 إنستغرام: <a href="https://www.instagram.com/nafas.shababi" target="_blank" rel="noopener">@nafas.shababi</a></li>
-          <li>🔗 واتساب: <a href="https://chat.whatsapp.com/L55BbojXqZSDTSoKtJ9Dbc?mode=ems_copy_t" target="_blank" rel="noopener">اضغط هنا</a></li>
-        </ul>
-      </Section>
-
-      <Footer>© 2025 نَفَس شبابي — كل الحقوق محفوظة</Footer>
-
-      <WhatsAppFloat href="https://chat.whatsapp.com/L55BbojXqZSDTSoKtJ9Dbc?mode=ems_copy_t" target="_blank">
-        تواصل معنا
-      </WhatsAppFloat>
-    </AppContainer>
-  );
-}
-
-export default App;
+    const teamDiv = document.getElementById('team-members');
+    team.forEach((m,i)=>{
+      const member = document.createElement('div');
+      member.className='member';
+      member.style.animation = `fadeInUp 0.8s ease forwards`;
+      member.style.animationDelay = `${i*0.15}s`;
+      member.innerHTML = `<div class="avatar">${m.initials}</div><strong>${m.name}</strong><div class="small">${m.role}</div>`;
+      teamDiv.appendChild(member);
+    });
+  </script>
+</body>
+</html>
